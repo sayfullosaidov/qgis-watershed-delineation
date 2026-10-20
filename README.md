@@ -1,86 +1,58 @@
 # Watershed Delineation with QGIS and GRASS GIS
 
-A reproducible GIS workflow for delineating a watershed from a Digital Elevation Model (DEM) using **QGIS** and **GRASS GIS**.
+A GIS workflow for delineating a watershed from a Digital Elevation Model (DEM) using **QGIS** and **GRASS GIS**.
 
-The project demonstrates a basic terrain-to-watershed workflow: preparing a DEM, correcting depressions, deriving drainage networks, identifying an outlet, and delineating the upstream contributing watershed.
+The project demonstrates the basic terrain-to-watershed process: hydrologically conditioning a DEM, deriving drainage patterns, selecting an outlet, and identifying the upstream contributing area.
 
 ## Workflow
-
-The general workflow is:
 
 ```text
 Digital Elevation Model (DEM)
           ↓
       Fill Sinks
           ↓
-  Flow Direction / Accumulation
+Flow Direction / Accumulation
           ↓
-     River Network
+   Drainage Network
           ↓
-    Identify Outlet
+    Select Outlet
           ↓
-  Watershed Delineation
+Watershed Delineation
           ↓
-   Watershed Boundary
+ Watershed Boundary
 ```
 
 ## Tools
 
-* [QGIS](https://qgis.org/)
-* GRASS GIS
-* Digital Elevation Model (DEM)
-* Raster terrain analysis
-* Hydrologic network analysis
+- QGIS
+- GRASS GIS
+- Digital Elevation Model (DEM)
+- Raster terrain analysis
+- Hydrologic network analysis
 
 ## Method
 
-### 1. DEM Preparation
+### 1. Prepare the DEM
 
-A Digital Elevation Model is imported into QGIS and prepared for hydrologic analysis.
+A DEM is imported into QGIS and used to represent terrain elevation and surface drainage patterns.
 
-The DEM represents the elevation of the terrain and provides the basis for determining how water would theoretically flow across the landscape.
+### 2. Fill Depressions
 
-### 2. Fill Depressions / Sinks
+Small sinks or artificial depressions are filled to create a hydrologically conditioned DEM and maintain continuous drainage paths.
 
-Small artificial depressions in the DEM can interrupt continuous drainage paths.
+### 3. Derive Drainage
 
-A sink-filling algorithm is therefore applied to create a hydrologically conditioned DEM suitable for flow-routing analysis.
+Flow direction and flow accumulation are calculated from the conditioned DEM. A flow-accumulation threshold is then used to extract an approximate drainage network.
 
-### 3. Derive Flow
+### 4. Select the Outlet
 
-Flow direction and/or flow accumulation are calculated from the conditioned DEM.
+An outlet is identified at the downstream location of interest. Its location determines the upstream area included in the watershed.
 
-Flow accumulation helps identify locations where drainage converges and provides a way to extract an approximate river or drainage network.
+### 5. Delineate the Watershed
 
-### 4. Extract the River Network
+The upstream contributing area draining to the selected outlet is delineated to produce the final watershed boundary.
 
-A flow-accumulation threshold is used to identify cells that represent concentrated drainage.
-
-The resulting network provides a visual representation of the drainage structure and helps identify potential watershed outlets.
-
-### 5. Define the Outlet
-
-An outlet point is selected at the location where the watershed drains into the downstream river or drainage system.
-
-The outlet is an important input because the delineated watershed depends on its location.
-
-### 6. Delineate the Watershed
-
-Using the conditioned DEM and outlet location, the upstream contributing area is delineated.
-
-The final result is a watershed boundary representing the area that theoretically drains to the selected outlet.
-
-## Outputs
-
-The workflow produces:
-
-* Hydrologically conditioned DEM
-* Flow accumulation raster
-* Derived drainage/river network
-* Outlet point
-* Delineated watershed boundary
-
-Example output:
+## Example Output
 
 ![Watershed delineation](figures/watershed_result.png)
 
@@ -98,57 +70,31 @@ qgis-watershed-delineation/
 ├── qgis/
 │   └── watershed_delineation.qgz
 │
-├── scripts/
-│   └── README.md
-│
 ├── README.md
 └── LICENSE
 ```
 
-## Why This Workflow?
+## Limitations
 
-Watershed delineation is a fundamental step in hydrology and water-resources engineering.
+The resulting watershed depends on the DEM resolution, hydrologic conditioning, flow-routing method, drainage threshold, and selected outlet location.
 
-The same general concept is used as a starting point for applications such as:
+The extracted drainage network represents terrain-based flow paths and should not automatically be interpreted as the actual mapped river or stormwater network.
 
-* rainfall–runoff modeling
-* flood modeling
-* streamflow analysis
-* water-resources planning
-* hydrologic model setup
-* catchment characterization
+This project focuses on **GIS-based watershed delineation** rather than hydrologic or hydraulic simulation. It does not simulate processes such as precipitation, infiltration, runoff, streamflow, or flooding.
 
-This project was created as a practical exercise in connecting **terrain analysis, GIS, and hydrologic processes**.
+## Possible Extensions
 
-## Important Limitations
-
-The delineated watershed is dependent on the quality and resolution of the DEM, the hydrologic conditioning method, the flow-routing algorithm, and the selected outlet location.
-
-The extracted river network should therefore not automatically be interpreted as a representation of the actual mapped river system.
-
-This workflow is primarily a **GIS-based terrain analysis**, rather than a complete hydrologic or hydraulic model. It does not by itself simulate precipitation, infiltration, runoff generation, streamflow, or flood depth.
-
-## Reproducibility
-
-The goal of this repository is to document the workflow clearly enough that another user can reproduce the analysis using the same DEM, software settings, and outlet location.
-
-Software versions, processing parameters, and data sources should be recorded as the project is developed.
-
-## Next Steps
-
-Possible extensions include:
-
-* comparing the extracted drainage network with observed river data
-* testing different flow-accumulation thresholds
-* comparing different DEM products and resolutions
-* calculating watershed area and elevation statistics
-* deriving stream-order networks
-* adding precipitation and land-cover data
-* using the delineated watershed as an input to a rainfall–runoff model
+- Compare derived drainage paths with mapped streams
+- Test different flow-accumulation thresholds
+- Compare DEM products and resolutions
+- Calculate watershed area and elevation statistics
+- Derive stream order
+- Add precipitation or land-cover data
+- Use the watershed in a rainfall–runoff model
 
 ## Author
 
-**Sayfullo Saidov**
+**Sayfullo Saidov**  
 Civil and Environmental Engineering, Princeton University
 
-Interested in hydrology, urban water systems, flood modeling, and climate-resilient infrastructure.
+Interests: hydrology, urban water systems, flood modeling, and climate-resilient infrastructure.
