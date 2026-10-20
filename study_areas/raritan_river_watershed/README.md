@@ -4,7 +4,7 @@ A GIS-based watershed delineation exercise for the **Raritan River region, New J
 
 ## Watershed Map
 
-![Raritan Watershed](watershed_map.png)
+![Raritan Watershed](raritan_watershed_map.png)
 
 ## Methodology
 
