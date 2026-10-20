@@ -23,8 +23,6 @@ The watershed was delineated through the following steps:
 
 The final output is a watershed boundary and derived drainage network based on terrain elevation.
 
-![Watershed Delineation](figures/watershed_result.png)
-
 ## Limitations
 
 Results depend on DEM resolution, processing methods, and outlet selection. The analysis represents terrain-based drainage patterns rather than a complete hydrologic or hydraulic simulation.
